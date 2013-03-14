@@ -35,6 +35,7 @@ class DateTimeType extends BaseDateTimeType
 
         if($timestamp === false)
         {
+            return $value;
             $val = \DateTime::createFromFormat($platform->getDateTimeFormatString(), $value);
             //var_dump($value);exit;
             if (!$val) {
