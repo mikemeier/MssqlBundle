@@ -74,10 +74,16 @@ class Driver implements \Doctrine\DBAL\Driver
 
             $dsn = 'dblib:';
             if (isset($params['host'])) {
-                $dsn .= 'host=' . $params['host'] . ';';
+                if (isset($params['port']) && PHP_OS == 'FreeBSD') {
+                    $dsn .= 'host=' . $params['host'] . ':' . $params['port'] . ';';
+                }else{
+                    $dsn .= 'host=' . $params['host'] . ';';
+                }
             }
             if (isset($params['port'])) {
-                $dsn .= 'port=' . $params['port'] . ';';
+                if(PHP_OS != 'FreeBSD'){
+                    $dsn .= 'port=' . $params['port'] . ';';
+                }
             }
             if (isset($params['dbname'])) {
                 $dsn .= 'dbname=' . $params['dbname'] . ';';
