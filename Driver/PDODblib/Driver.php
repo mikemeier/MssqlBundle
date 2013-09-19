@@ -58,10 +58,14 @@ class Driver implements \Doctrine\DBAL\Driver
             $dsn = 'sqlsrv:server=';
 
             if (isset($params['host'])) {
-                $dsn .= $params['host'];
+                if (isset($params['port']) && PHP_OS == 'FreeBSD') {
+                    $dsn .= 'host=' . $params['host'] . ':' . $params['port'] . ';';
+                }else{
+                    $dsn .= 'host=' . $params['host'] . ';';
+                }
             }
 
-            if (isset($params['port']) && !empty($params['port'])) {
+            if (isset($params['port']) && !empty($params['port']) && PHP_OS != 'FreeBSD') {
                 $dsn .= ',' . $params['port'];
             }
 
