@@ -58,14 +58,10 @@ class Driver implements \Doctrine\DBAL\Driver
             $dsn = 'sqlsrv:server=';
 
             if (isset($params['host'])) {
-                if (isset($params['port']) && PHP_OS == 'FreeBSD') {
-                    $dsn .= 'host=' . $params['host'] . ':' . $params['port'] . ';';
-                }else{
-                    $dsn .= 'host=' . $params['host'] . ';';
-                }
+                $dsn .= 'host=' . $params['host'] . ';';
             }
 
-            if (isset($params['port']) && !empty($params['port']) && PHP_OS != 'FreeBSD') {
+            if (isset($params['port']) && !empty($params['port'])) {
                 $dsn .= ',' . $params['port'];
             }
 
@@ -78,10 +74,14 @@ class Driver implements \Doctrine\DBAL\Driver
 
             $dsn = 'dblib:';
             if (isset($params['host'])) {
-                $dsn .= 'host=' . $params['host'] . ';';
+                if (isset($params['port']) && PHP_OS == 'FreeBSD') {
+                    $dsn .= 'host=' . $params['host'] . ':' . $params['port'] . ';';
+                }else{
+                    $dsn .= 'host=' . $params['host'] . ';';
+                }
             }
-            if (isset($params['port'])) {
-                $dsn .= 'port=' . $params['port'] . ';';
+            if (isset($params['port']) && !empty($params['port']) && PHP_OS != 'FreeBSD') {
+                $dsn .= ',' . $params['port'];
             }
             if (isset($params['dbname'])) {
                 $dsn .= 'dbname=' . $params['dbname'] . ';';
