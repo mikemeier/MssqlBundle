@@ -76,6 +76,7 @@ class Driver implements \Doctrine\DBAL\Driver
             if (isset($params['host'])) {
                 if (isset($params['port']) && PHP_OS == 'FreeBSD') {
                     $dsn .= 'host=' . $params['host'] . ':' . $params['port'] . ';';
+                    ini_set('default_charset', 'ISO-8859-15');
                 }else{
                     $dsn .= 'host=' . $params['host'] . ';';
                 }
